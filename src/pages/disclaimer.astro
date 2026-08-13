@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import Prose from '../components/Prose.astro';
+import { SITE } from '../lib/registry.js';
+---
+<Base title={`Disclaimer – ${SITE.name}`} description="Results on this site are estimates for planning. Confirm quantities with your supplier or a licensed contractor before purchasing." path="/disclaimer/" breadcrumbs={[{ name: 'Calculators', path: '/' }, { name: 'Disclaimer', path: '/disclaimer/' }]}>
+  <Prose eyebrow="Legal" title="Disclaimer">
+    <p>The calculators on this site produce estimates for planning purposes. They are not a substitute for a professional takeoff, an engineer's specification, or the judgement of an experienced tradesperson standing in front of the actual job.</p>
+    <h2>Why the number can be wrong for you</h2>
+    <ul>
+      <li>Real rooms are not rectangles. Out-of-square walls, sloped ceilings, bulkheads and existing finishes all change quantities.</li>
+      <li>Installation method matters. The same wall takes different amounts of material depending on layout, framing spacing and who is doing the work.</li>
+      <li>Product specifications vary between manufacturers and change over time. Coverage rates printed on a bag are the authority for that bag.</li>
+      <li>Waste is a judgement, not a constant. The default factors here are typical, not guaranteed.</li>
+    </ul>
+    <h2>Structural and code matters</h2>
+    <p>Anything load-bearing, anything involving rebar or grouted cores, and anything governed by building code should be confirmed with a licensed professional and your local building department. Code figures cited on this site are from model codes and your jurisdiction may amend them.</p>
+    <h2>Costs</h2>
+    <p>Cost ranges are rough US retail estimates used to give a sense of scale. They exclude labour, delivery, tools, tax and regional variation, and material prices move constantly. Never budget from them.</p>
+    <h2>Liability</h2>
+    <p>Use of this site is at your own risk. We accept no liability for material shortfalls, over-ordering, project delays, costs or damages arising from reliance on these estimates. Confirm quantities with your supplier before making a significant purchase.</p>
+  </Prose>
+</Base>

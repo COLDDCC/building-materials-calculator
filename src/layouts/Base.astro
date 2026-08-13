@@ -1,0 +1,150 @@
+---
+import '../styles/global.css';
+import { SITE } from '../lib/registry.js';
+
+const {
+  title,
+  description,
+  path = '/',
+  schema = [],
+  breadcrumbs = [],
+} = Astro.props;
+
+const canonical = new URL(path, SITE.domain).href;
+const graph = [...schema];
+
+if (breadcrumbs.length) {
+  graph.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((b, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: b.name,
+      item: new URL(b.path, SITE.domain).href,
+    })),
+  });
+}
+
+const nav = [
+  { href: '/', label: 'Calculators' },
+  { href: '/guides/', label: 'Guides' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/og.png', SITE.domain).href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL('/og.png', SITE.domain).href} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {graph.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+    {
+      SITE.ga4Id && (
+        <>
+          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${SITE.ga4Id}`} />
+          <script is:inline>
+            {`window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${SITE.ga4Id}');`}
+          </script>
+        </>
+      )
+    }
+  </head>
+
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-4 focus:py-2"
+      >Skip to calculator</a
+    >
+
+    <header class="no-print border-b border-rule bg-white">
+      <div class="mx-auto flex max-w-6xl items-center justify-between gap-6 px-5 py-4">
+        <a href="/" class="group flex items-baseline gap-2 no-underline">
+          <span
+            class="font-mono text-[0.95rem] font-bold uppercase tracking-[0.18em] text-ink"
+            >Build<span class="text-blueprint">Tally</span></span
+          >
+          <span class="hidden h-[3px] w-8 bg-tape sm:block" aria-hidden="true"></span>
+        </a>
+        <nav class="flex items-center gap-6" aria-label="Main">
+          {
+            nav.map((n) => (
+              <a
+                href={n.href}
+                class="font-mono text-xs uppercase tracking-[0.12em] text-slate no-underline hover:text-blueprint"
+              >
+                {n.label}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+    </header>
+
+    {
+      breadcrumbs.length > 1 && (
+        <nav class="no-print mx-auto max-w-6xl px-5 pt-4" aria-label="Breadcrumb">
+          <ol class="flex flex-wrap items-center gap-2 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-mute">
+            {breadcrumbs.map((b, i) => (
+              <li class="flex items-center gap-2">
+                {i > 0 && <span aria-hidden="true">/</span>}
+                {i === breadcrumbs.length - 1 ? (
+                  <span class="text-slate">{b.name}</span>
+                ) : (
+                  <a href={b.path} class="no-underline hover:text-blueprint">
+                    {b.name}
+                  </a>
+                )}
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="no-print mt-20 border-t border-rule bg-white">
+      <div class="mx-auto max-w-6xl px-5 py-10">
+        <div class="flex flex-wrap items-start justify-between gap-8">
+          <div class="max-w-sm">
+            <p class="font-mono text-[0.95rem] font-bold uppercase tracking-[0.18em]">
+              Build<span class="text-blueprint">Tally</span>
+            </p>
+            <p class="mt-2 text-sm text-slate">{SITE.tagline}</p>
+          </div>
+          <nav class="flex flex-col gap-2" aria-label="Footer">
+            <a href="/about/" class="text-sm no-underline hover:underline">About</a>
+            <a href="/contact/" class="text-sm no-underline hover:underline">Contact</a>
+            <a href="/privacy/" class="text-sm no-underline hover:underline">Privacy</a>
+            <a href="/disclaimer/" class="text-sm no-underline hover:underline">Disclaimer</a>
+          </nav>
+        </div>
+        <p class="mt-8 border-t border-rulesoft pt-6 text-xs text-mute">
+          © {new Date().getFullYear()} {SITE.name}. Estimates are for planning only.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

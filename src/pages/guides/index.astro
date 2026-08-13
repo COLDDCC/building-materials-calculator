@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+import { guides } from '../../lib/guides.js';
+import { bySlug, SITE } from '../../lib/registry.js';
+---
+
+<Base
+  title={`Guides – ${SITE.name}`}
+  description="Plain answers to the questions that come up while estimating materials: how much you need, why the formula works, and where the common mistakes are."
+  path="/guides/"
+  breadcrumbs={[{ name: 'Calculators', path: '/' }, { name: 'Guides', path: '/guides/' }]}
+>
+  <section class="mx-auto max-w-3xl px-5 pt-10">
+    <p class="eyebrow">{guides.length} {guides.length === 1 ? 'guide' : 'guides'}</p>
+    <h1 class="mt-2 text-4xl font-bold tracking-tight">Guides</h1>
+    <p class="mt-3 text-lg text-slate">
+      The questions that come up mid-estimate — why a formula works, what the standard figures mean,
+      and where the expensive mistakes hide.
+    </p>
+
+    <ul class="mt-8 divide-y divide-rulesoft border-t border-rule">
+      {
+        guides.map((g) => (
+          <li class="py-5">
+            <a href={`/guides/${g.slug}/`} class="text-lg font-medium no-underline hover:underline">
+              {g.title}
+            </a>
+            <p class="mt-1 text-slate">{g.description}</p>
+            {bySlug[g.calculator] && <p class="eyebrow mt-2">Calculator: {bySlug[g.calculator].h1}</p>}
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Base>

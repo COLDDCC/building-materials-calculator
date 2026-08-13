@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import Prose from '../components/Prose.astro';
+import { SITE } from '../lib/registry.js';
+---
+<Base title={`Privacy Policy – ${SITE.name}`} description={`How ${SITE.name} handles data. Calculations run in your browser and are never sent to a server.`} path="/privacy/" breadcrumbs={[{ name: 'Calculators', path: '/' }, { name: 'Privacy', path: '/privacy/' }]}>
+  <Prose eyebrow="Legal" title="Privacy policy">
+    <p>Last updated 13 August 2026.</p>
+    <h2>What we collect</h2>
+    <p>Nothing you type into a calculator. Every calculation runs entirely in your browser and no measurement, result or project detail is transmitted to us or to anyone else.</p>
+    <p>Your choice of imperial or metric units is saved in your browser's local storage so the site remembers it on your next visit. That value never leaves your device and you can clear it by clearing site data.</p>
+    <h2>Analytics</h2>
+    <p>We use Google Analytics to understand which pages get used and where people give up. It collects standard information such as pages viewed, approximate location from your IP address, device type and referring site. It does not receive anything you enter into a calculator.</p>
+    <h2>Cookies</h2>
+    <p>Analytics sets cookies to distinguish return visits. Nothing else on the site requires cookies to work. Your browser settings can block them without affecting any calculator.</p>
+    <h2>Advertising</h2>
+    <p>If display advertising is added in future, this page will be updated before it goes live, and the disclosure will name the ad network and describe what it collects.</p>
+    <h2>Your rights</h2>
+    <p>If you are in the EU, UK or California, you have the right to ask what data relates to you and to have it deleted. Because we hold no accounts and store nothing you enter, in practice this concerns analytics records only. Write to the contact address and it will be handled.</p>
+    <h2>Contact</h2>
+    <p>Questions about this policy: <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+  </Prose>
+</Base>

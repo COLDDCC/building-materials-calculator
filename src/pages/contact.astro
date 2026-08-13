@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import Prose from '../components/Prose.astro';
+import { SITE } from '../lib/registry.js';
+---
+<Base title={`Contact – ${SITE.name}`} description={`Report an error, suggest a calculator, or get in touch with ${SITE.name}.`} path="/contact/" breadcrumbs={[{ name: 'Calculators', path: '/' }, { name: 'Contact', path: '/contact/' }]}>
+  <Prose eyebrow="Contact" title="Get in touch">
+    <p>Email is the fastest way to reach us: <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+    <h2>Reporting a wrong number</h2>
+    <p>This is the most useful message you can send. Include the calculator, the exact inputs you entered, the result you got and the result you expected. Errors get checked the same week and the page is updated with a note about what changed.</p>
+    <h2>Suggesting a calculator</h2>
+    <p>Tell us what you were trying to estimate and what you ended up doing instead. Requests that describe a real job get built before requests that name a keyword.</p>
+    <h2>Everything else</h2>
+    <p>Press, partnerships and licensing enquiries go to the same address. We do not accept guest posts or paid links.</p>
+  </Prose>
+</Base>

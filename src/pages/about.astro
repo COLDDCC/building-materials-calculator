@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import Prose from '../components/Prose.astro';
+import { calculators, SITE } from '../lib/registry.js';
+---
+<Base title={`About – ${SITE.name}`} description={`Who builds ${SITE.name}, how the calculators are checked, and why every formula is published.`} path="/about/" breadcrumbs={[{ name: 'Calculators', path: '/' }, { name: 'About', path: '/about/' }]}>
+  <Prose eyebrow="About" title={`Why ${SITE.name} exists`}>
+    <p>Most material calculators give you a number and no way to check it. That is fine until the number is wrong, and you find out on a Saturday afternoon with half a wall up and the store closed.</p>
+    <p>So every calculator here publishes its formula, its assumptions and a worked example. If you disagree with a coefficient — the mortar bag yield, the waste factor, the deduction for a door — you can see it, change your inputs, and decide for yourself.</p>
+    <h2>How the numbers are checked</h2>
+    <p>Every calculator is hand-verified against its own worked example before it goes live, and the underlying figures come from published manufacturer specifications and standard trade practice rather than from other calculators. Where the trade disagrees with itself, the page says so instead of picking a side silently.</p>
+    <p>Two specific things this site does differently. Concrete block is counted on nominal dimensions including the mortar joint, not the block you can measure, which is a difference of roughly 7.5%. Wallpaper is counted strip by strip against the pattern repeat, not by dividing wall area by roll area, which is the difference between ordering enough and ordering one roll short.</p>
+    <h2>What is here now</h2>
+    <p>{calculators.length} calculators, with more added regularly. Everything runs in your browser — nothing you type is sent anywhere or stored on a server.</p>
+    <h2>Corrections</h2>
+    <p>If a figure looks wrong, it might be. Send the calculator, the inputs you used and what you expected, and it gets checked. Corrections are made quickly and the page notes what changed.</p>
+  </Prose>
+</Base>
