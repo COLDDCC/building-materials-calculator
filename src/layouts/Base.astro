@@ -58,12 +58,12 @@ const nav = [
       SITE.ga4Id && (
         <>
           <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${SITE.ga4Id}`} />
-          <script is:inline>
-            {`window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${SITE.ga4Id}');`}
-          </script>
+          <script is:inline set:html={`
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${SITE.ga4Id}');
+`} />
         </>
       )
     }
