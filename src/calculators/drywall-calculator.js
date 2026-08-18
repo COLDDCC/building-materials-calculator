@@ -52,7 +52,8 @@ export default {
 
     const materialLow = sheets * 12;
     const materialHigh = sheets * 20;
-    const compound = Math.ceil((adj / 100) * 5);
+    // ~1 gal (12-14 lb) per 100 sq ft per coat; taping + two finish coats (level 4) is ~3 coats' worth.
+    const compound = Math.ceil((adj / 100) * 40);
     const tape = Math.ceil(adj * 0.6);
 
     return {
