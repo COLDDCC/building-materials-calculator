@@ -5,11 +5,13 @@
 const BLOCKS_PER_SQFT = 1.125;
 
 // 按标称墙厚（in）给出的每块灌芯体积（cu ft）与每袋砂浆可砌块数
+// 8 in 标定值取 Quikrete Mason Mix Type S 官方数据表（80 lb 袋 "lays up to 13 standard 8x8x16 blocks"）
+// 与行业经验值（约 12 块/袋）的交集，取 12；其余墙厚按同一比例换算，未逐一核实供应商实测值。
 const BY_WIDTH = {
-  4:  { core: 0.10, blocksPerBag: 54 },
-  6:  { core: 0.20, blocksPerBag: 36 },
-  8:  { core: 0.28, blocksPerBag: 27 },
-  12: { core: 0.45, blocksPerBag: 18 },
+  4:  { core: 0.10, blocksPerBag: 24 },
+  6:  { core: 0.20, blocksPerBag: 16 },
+  8:  { core: 0.28, blocksPerBag: 12 },
+  12: { core: 0.45, blocksPerBag: 8 },
 };
 
 export default {
