@@ -84,12 +84,12 @@ export default {
     { t: 'h2', v: 'What comes with the board' },
     {
       t: 'p',
-      v: 'Sheets are the expensive part but not the part you run out of. For that 11 × 14 bedroom with the ceiling boarded, the same job needs roughly 29 lb of joint compound, 344 ft of tape and 576 screws.',
+      v: 'Sheets are the expensive part but not the part you run out of. For that 11 × 14 bedroom with the ceiling boarded, the same job needs roughly 230 lb of joint compound, 344 ft of tape and 576 screws.',
     },
     {
       t: 'ul',
       v: [
-        'Compound: one 4.5 gallon bucket does roughly 1,200 sq ft of board at a level 4 finish. Most single rooms need one bucket; skimming the whole surface to level 5 needs two.',
+        'Compound: one 4.5 gallon (61 lb) bucket covers roughly 150 sq ft of board at a level 4 finish — taping plus two coats. Most single rooms need three or four buckets; skimming the whole surface to level 5 needs more.',
         'Tape: about 0.6 linear feet per square foot of board. A 250 ft roll covers roughly 400 sq ft. Paper tape for flats and inside corners, mesh only if you are using setting compound.',
         'Screws: reckon on one per square foot of board, and about 320 to the pound in 1¼ in. A 5 lb box covers anything short of a whole floor.',
       ],

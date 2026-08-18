@@ -27,10 +27,10 @@ export default {
       ['Depth for R-49', '49 ÷ 3.7 = 13.24 in'],
       ['Cavity limit', 'Attic floor is open — no cap applies'],
       ['Volume', '720 × 1.08 × 13.24 ÷ 12 = 858 cu ft'],
-      ['Bags at 2.2 cu ft settled', 'ceil(858 ÷ 2.2) = 391 bags'],
+      ['Bags at 20 cu ft settled', 'ceil(858 ÷ 20) = 43 bags'],
     ],
     conclusion:
-      "That is a machine job, not a hand job — most rental blowers move around 20 bags an hour with two people, so budget a full day. Big-box stores commonly lend the blower free with a bag minimum, which usually makes this cheaper than it looks.",
+      "That is a machine job, not a hand job — most rental blowers move around 20 bags an hour with two people, so a straightforward attic like this is a couple of hours' work once the machine is loaded and the depth markers are set. Big-box stores commonly lend the blower free with a bag minimum, which usually makes this cheaper than it looks.",
   },
 
   tables: [

@@ -57,7 +57,10 @@ export default {
       const perBag = v.assembly === 'wall2x4' ? 88 : 64;
       packages = Math.ceil(adj / perBag);
     } else {
-      const cuFtPerBag = v.type === 'blown' ? 2.2 : 3.5;
+      // Settled installed yield per bag, back-calculated from manufacturer coverage charts
+      // (Greenfiber Sanctuary cellulose: ~21 cu ft/bag at R-19; Owens Corning AttiCat
+      // fiberglass: ~55-63 cu ft/bag across R-19-R-60). Not a physical/compressed bag volume.
+      const cuFtPerBag = v.type === 'blown' ? 20 : 55;
       const cuFtNeeded = (adj * depth) / 12;
       packages = Math.ceil(cuFtNeeded / cuFtPerBag);
     }

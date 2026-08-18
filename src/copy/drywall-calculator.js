@@ -9,7 +9,7 @@ export default {
       'Deductions = (doors × 21) + (windows × 12)',
       'Net area   = Wall area + Ceiling − Deductions',
       'Sheets     = ceil( Net area × (1 + waste) ÷ sheet area )',
-      'Compound   = Net area × 1.1 ÷ 100 × 5 lb',
+      'Compound   = Net area × 1.1 ÷ 100 × 40 lb',
       'Tape       = Net area × 1.1 × 0.6 ft',
       'Screws     = Sheets × sheet area              (≈ 1 per sq ft)',
     ],
@@ -17,7 +17,7 @@ export default {
       'Wall area comes from the room perimeter rather than the individual walls, which is why two numbers are enough for a rectangular room. Multiply the perimeter by ceiling height and you have every wall at once. For an L-shaped room, run the calculator twice on the two rectangles and add the results, minus the shared wall if it is not being boarded.',
       'The 21 and 12 sq ft deductions are standard estimating allowances, not measurements of your actual openings. A 3 × 7 ft door is 21 sq ft; a typical 3 × 4 ft window is 12. If your openings are much larger — a patio slider, a picture window — measure them and enter the equivalent count. Many estimators deliberately skip small deductions entirely, on the grounds that the offcuts around an opening are rarely usable anyway.',
       'Screws scale with sheet area rather than sheet count. A 4 × 8 sheet on 16 in centers takes about 32 screws, which works out to roughly one per square foot; that ratio holds when you move up to 4 × 10 or 4 × 12, so the calculator multiplies through by area. Buy by the pound: a 1 lb box holds roughly 320 screws at 1¼ in.',
-      'Joint compound at 5 lb per 100 sq ft covers taping plus two finish coats at a level 4 finish. Push for a level 5 skim coat and that figure roughly doubles. Tape at 0.6 linear feet per square foot of board assumes standard 4 ft wide sheets; longer sheets mean fewer butt joints and slightly less tape, which is one of the quieter reasons to buy 4 × 12 when the room allows it.',
+      'Joint compound at 40 lb per 100 sq ft covers taping plus two finish coats at a level 4 finish — roughly a gallon (12-14 lb) per 100 sq ft for each of the three passes. Push for a level 5 skim coat and that figure climbs further. Tape at 0.6 linear feet per square foot of board assumes standard 4 ft wide sheets; longer sheets mean fewer butt joints and slightly less tape, which is one of the quieter reasons to buy 4 × 12 when the room allows it.',
     ],
   },
 
@@ -30,12 +30,12 @@ export default {
       ['Net area', '416 − 33 = 383 sq ft'],
       ['With 10% waste', '383 × 1.10 = 421 sq ft'],
       ['Sheets at 4 × 8', '421 ÷ 32 = 13.2 → 14 sheets'],
-      ['Compound', '421 ÷ 100 × 5 ≈ 21 lb'],
+      ['Compound', '421 ÷ 100 × 40 ≈ 169 lb'],
       ['Tape', '421 × 0.6 ≈ 253 ft'],
       ['Screws', '14 × 32 ≈ 450'],
     ],
     conclusion:
-      'Fourteen 4 × 8 sheets, one bucket of all-purpose compound, one 250 ft roll of paper tape and a 2 lb box of screws. Add the ceiling and the same room jumps to 18 sheets — the ceiling alone is 168 sq ft, more than a third again on top of the walls.',
+      'Fourteen 4 × 8 sheets, about three 61 lb buckets of all-purpose compound, one 250 ft roll of paper tape and a 2 lb box of screws. Add the ceiling and the same room jumps to 18 sheets — the ceiling alone is 168 sq ft, more than a third again on top of the walls.',
   },
 
   tables: [
@@ -97,7 +97,7 @@ export default {
     },
     {
       q: 'How much joint compound do I need?',
-      a: 'Around 5 lb per 100 sq ft of board for a level 4 finish, which is taping plus two coats. A 4.5 gallon bucket holds about 61 lb and covers roughly 1,200 sq ft. Skim coating the whole surface to level 5 will use close to double.',
+      a: 'Around 40 lb per 100 sq ft of board for a level 4 finish, which is taping plus two coats. A 4.5 gallon bucket holds about 61 lb and covers roughly 150 sq ft at that rate. Skim coating the whole surface to level 5 will use somewhat more.',
     },
     {
       q: 'Is 1/2 in or 5/8 in drywall better for ceilings?',
