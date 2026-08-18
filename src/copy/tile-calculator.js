@@ -9,13 +9,13 @@ export default {
       'Tiles per sq ft = 144 ÷ effective tile area in sq in',
       'Tiles         = ceil( Area × tiles per sq ft × (1 + waste + diagonal) )',
       'Boxes         = ceil( Tiles ÷ tiles per box )',
-      'Thinset bags  = ceil( Area ÷ 95 )   (floor, 1/4 in notch trowel)',
+      'Thinset bags  = ceil( Area ÷ coverage per bag )   (50 sq ft floor / 65 wall; 35 / 45 over 12 in tile)',
       'Grout         = Area × joint ratio × 0.5 lb',
     ],
     body: [
       "Grout joints are part of the module, not a rounding error. A 12 in tile with a 1/8 in joint occupies 12.125 in of floor, so a hundred square feet takes 98 tiles rather than 100. It is a small correction on small tile and a large one on mosaic, where a 1/4 in joint between 2 in tiles changes the count by more than 20 percent.",
       "The diagonal option adds five percentage points on top of your waste factor because a 45 degree layout produces two cut edges at every wall instead of one, and the triangular offcuts are almost never reusable. Herringbone and chevron behave the same way; treat them as diagonal. Running bond and straight stack are the cheap layouts.",
-      "Thinset coverage depends on the notch trowel, which in turn depends on tile size. A 1/4 in square notch covers about 95 sq ft per 50 lb bag on floors; a 1/4 in V-notch for wall tile stretches to about 130. Large-format tile over 15 in needs a 1/2 in notch and drops coverage to around 60, so buy an extra bag if you are setting big plank tile.",
+      "Thinset coverage depends on the notch trowel, which in turn depends on tile size. A 1/4 in square notch covers about 50 sq ft per 50 lb bag on floors for tile up to 12 in on a side; on walls, where the bed runs thinner, that rises to about 65. Cross the 12 in mark in either dimension and TCNA guidance calls for a 1/2 in notch, which drops coverage to about 35 sq ft on floors and 45 on walls — the calculator switches to those numbers automatically once you pick a large-format size like 12 × 24 or 18 × 18.",
     ],
   },
 
@@ -27,7 +27,7 @@ export default {
       ['Raw tile count', '120 ÷ 2.03 = 59 tiles'],
       ['Waste at 10%', '59 × 1.10 = 65 tiles'],
       ['Boxes at 8 per box', 'ceil(65 ÷ 8) = 9 boxes'],
-      ['Thinset', 'ceil(120 ÷ 95) = 2 bags at 50 lb'],
+      ['Thinset', 'ceil(120 ÷ 35) = 4 bags at 50 lb (large-format floor)'],
       ['Grout', '120 × 0.5 ≈ 60 lb'],
     ],
     conclusion:
@@ -64,7 +64,7 @@ export default {
     { q: 'How many tiles do I need for a 10 × 10 room?', a: '100 sq ft of floor takes about 98 12 × 12 tiles before waste, or 108 with a 10% allowance. In 12 × 24 tile the same floor takes 49 tiles, 54 with waste.' },
     { q: 'How much extra tile should I buy?', a: '10% for a straight layout, 15% for diagonal or herringbone, and always round up to a whole box. Keep the spares — dye lots shift between production runs and a replacement box a year later will read as a different colour under daylight.' },
     { q: 'Do I include grout joints in the calculation?', a: 'Yes, and this calculator does it automatically. The joint adds to the module size, so wider joints mean fewer tiles. It makes a negligible difference on large-format tile and a substantial one on mosaic.' },
-    { q: 'How much thinset do I need?', a: 'Roughly one 50 lb bag per 95 sq ft on floors with a 1/4 in square-notch trowel, or per 130 sq ft on walls with a V-notch. Tile over 15 in needs a larger notch and roughly a third more mortar.' },
+    { q: 'How much thinset do I need?', a: 'Roughly one 50 lb bag per 50 sq ft on floors with a 1/4 in square-notch trowel (tile up to 12 in), or per 65 sq ft on walls. Cross 12 in in either dimension and the required 1/2 in notch drops that to about 35 sq ft on floors and 45 on walls — figure on close to 40% more mortar for large-format tile.' },
     { q: 'How much grout do I need?', a: 'About half a pound per square foot for 12 in tile at a 1/8 in joint. Smaller tile and wider joints raise it sharply — mosaic with 1/4 in joints can approach two pounds per square foot.' },
     { q: 'What size trowel should I use?', a: 'A 1/4 × 1/4 in square notch for tile up to 12 in, a 1/4 × 3/8 in for 12 to 16 in, and a 1/2 × 1/2 in for large format. The rule that matters is coverage: lift a set tile and you want at least 80% of the back contacted, 95% in wet areas.' },
     { q: 'Can I tile over existing tile?', a: 'Sometimes, if the existing tile is well bonded, flat and not over a failing substrate, and if the added height does not create a problem at doors and transitions. Scarify or prime the glaze first. When in doubt, the removal is cheaper than the failure.' },

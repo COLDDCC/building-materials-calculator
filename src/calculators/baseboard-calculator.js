@@ -47,7 +47,8 @@ export default {
     const crownLf = v.crown ? Math.ceil(perimeter * (1 + v.waste / 100)) : 0;
     const corners = 4 + v.doors * 2;
     const totalLf = adj + shoeLf + crownLf;
-    const caulk = Math.ceil(totalLf / 60);
+    // A 10.1 oz tube runs ~100-119 linear ft at the 1/8 in bead standard for a baseboard-to-wall seam.
+    const caulk = Math.ceil(totalLf / 100);
     const nails = Math.ceil(totalLf * 1.5);
     return {
       pieces, linear: Math.round(linear), shoeLf, crownLf, corners, caulk, nails,
