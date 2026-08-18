@@ -31,7 +31,7 @@ export default {
       ['Raw block count', '160 × 1.125', '180 blocks'],
       ['Waste at 5%', '180 × 1.05', '189 blocks'],
       ['Courses', '96 in ÷ 8 in', '12 courses'],
-      ['Mortar', '189 ÷ 27 per bag', '7 bags at 80 lb'],
+      ['Mortar', '189 ÷ 12 per bag', '16 bags at 80 lb'],
     ] },
     { t: 'p', v: 'Order 189 blocks. Two pallets of 90 gets you 180, so you are ordering two pallets plus nine loose, or three pallets if the yard prices loose block badly — which many do.' },
 
@@ -48,7 +48,7 @@ export default {
         ['Less openings', '160 − 33', '127 sq ft'],
         ['Raw block count', '127 × 1.125', '143 blocks'],
         ['Waste at 5%', '143 × 1.05', '151 blocks'],
-        ['Mortar', '151 ÷ 27 per bag', '6 bags'],
+        ['Mortar', '151 ÷ 12 per bag', '13 bags'],
       ],
     },
     {
@@ -60,7 +60,7 @@ export default {
       v: 'One thing openings do not change is the half-block question. Corners, jambs and the ends of alternating courses all need half blocks, and it is tempting to count them separately. Do not. Two halves make a whole, they come out of the same total, and most yards will cut them from your order or supply them at the same unit price.',
     },
     { t: 'h2', v: 'What about mortar?' },
-    { t: 'p', v: 'Mortar scales with block count, not wall area, because you are buttering a fixed amount of face on each block. One 80 lb bag of Type N or S mix lays about 27 standard 8 in blocks at a ⅜ in joint. Narrower 4 in partition block stretches to roughly 54 per bag; 12 in block drops to about 18. Buy one spare bag on anything over 200 blocks.' },
+    { t: 'p', v: 'Mortar scales with block count, not wall area, because you are buttering a fixed amount of face on each block. One 80 lb bag of premixed Type S mix lays about 12 standard 8 in blocks at a ⅜ in joint. Narrower 4 in partition block stretches to roughly 24 per bag; 12 in block drops to about 8. Buy one spare bag on anything over 100 blocks.' },
 
     { t: 'h2', v: 'When the count changes' },
     { t: 'ul', v: [

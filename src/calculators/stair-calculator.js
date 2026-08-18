@@ -42,13 +42,13 @@ export default {
     const stringerLen = Math.sqrt(Math.pow(v.totalRise, 2) + Math.pow(totalRun, 2)) + 12;
     const stockLen = Math.ceil(stringerLen / 12 / 2) * 2;
     const angle = Math.round((Math.atan(v.totalRise / totalRun) * 180) / Math.PI * 10) / 10;
-    const treadLf = Math.ceil((treads * (v.tread + v.nosing) * v.stairWidth) / 144 / (v.tread / 12) / 12);
+    const treadLf = Math.ceil((treads * v.stairWidth) / 12);
     const riserLf = v.openRiser ? 0 : Math.ceil((risers * v.stairWidth) / 12);
     return {
       risers, riserHeight, treads, totalRun,
       stringerLen: Math.round(stringerLen * 10) / 10,
       stockLen, angle,
-      treadLf: Math.ceil((treads * v.stairWidth) / 12),
+      treadLf,
       riserLf,
       riserBoards: !v.openRiser,
     };
