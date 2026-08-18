@@ -9,7 +9,7 @@ export default {
       'With waste   = Run × (1 + waste)',
       'Pieces       = ceil( With waste ÷ stock length )',
       'Corners      = 4 + (doorways × 2)',
-      'Caulk tubes  = ceil( total linear feet ÷ 60 )',
+      'Caulk tubes  = ceil( total linear feet ÷ 100 )',
       'Finish nails = total linear feet × 1.5',
     ],
     body: [
@@ -27,7 +27,7 @@ export default {
       ['Waste at 10%', '49 × 1.10 = 53.9 ft'],
       ['Pieces at 16 ft', 'ceil(53.9 ÷ 16) = 4 pieces'],
       ['Corners', '4 inside + 2 at the door casing'],
-      ['Caulk', 'ceil(54 ÷ 60) = 1 tube'],
+      ['Caulk', 'ceil(54 ÷ 100) = 1 tube'],
       ['Nails', '54 × 1.5 ≈ 81 finish nails'],
     ],
     conclusion:

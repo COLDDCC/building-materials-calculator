@@ -60,7 +60,13 @@ export default {
     const extra = v.waste + (v.layout ? 5 : 0);
     const tiles = Math.ceil(area * perSqft * (1 + extra / 100));
     const boxes = Math.ceil(tiles / v.perBox);
-    const notchDepth = v.surface === 'floor' ? 95 : 130;
+    // Coverage sq ft per 50 lb bag by trowel size, which the FAQ already ties to tile size
+    // (1/4x1/4 up to 12 in, 1/2x1/2 for large format) but compute() never implemented.
+    // Sourced from published trowel-coverage charts, not a single manufacturer spec.
+    const isLargeFormat = tileSqIn > 144;
+    const notchDepth = v.surface === 'floor'
+      ? (isLargeFormat ? 35 : 50)
+      : (isLargeFormat ? 45 : 65);
     const thinset = Math.ceil(area / notchDepth);
     const grout = Math.ceil(area * (v.joint / 0.125) * 0.5);
     const spacers = Math.ceil(tiles * 2.2);
