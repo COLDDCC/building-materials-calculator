@@ -37,7 +37,7 @@ export const SITE = {
   name: 'BuildTally',
   // 域名唯一入口：astro.config.mjs 的 site 与这里读同一个环境变量，改一处全站生效。
   domain: process.env.PUBLIC_SITE_URL || 'https://example.com',
-  email: 'hello@example.com',
+  email: 'lengche2222@gmail.com',
   ga4Id: import.meta.env.PUBLIC_GA4_ID || '',
   tagline: 'Material calculators that give you the number you actually order.',
 };
