@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Calculator from '../components/Calculator.astro';
 import { calculators, bySlug, SITE } from '../lib/registry.js';
 import { guideSlugs } from '../lib/guides.js';
+import { ICONS } from '../lib/icons.js';
 
 export function getStaticPaths() {
   return calculators.map((c) => ({ params: { slug: c.slug }, props: { slug: c.slug } }));
@@ -44,13 +45,6 @@ if (copy?.faq?.length) {
     })),
   });
 }
-
-const GLYPH = {
-  interior: 'M3 3h18v18H3z M3 9h18 M9 9v12',
-  structural: 'M3 5h18v6H3z M3 13h18v6H3z M8 5v6 M16 13v6',
-  landscaping: 'M3 18h18 M6 18c0-5 3-8 6-8s6 3 6 8',
-  outdoor: 'M4 20V9l8-5 8 5v11 M9 20v-7h6v7',
-};
 
 const H2 = 'text-xl font-bold tracking-tight text-ink sm:text-2xl';
 const SECTION = 'mx-auto max-w-3xl px-5 pt-14';
@@ -202,7 +196,7 @@ const SECTION = 'mx-auto max-w-3xl px-5 pt-14';
               stroke-width="1.5"
               aria-hidden="true"
             >
-              <path d={GLYPH[r.group]} />
+              <path d={ICONS[r.slug]} />
             </svg>
             <span>
               <span class="block font-medium text-ink group-hover:text-blueprint">{r.h1}</span>
