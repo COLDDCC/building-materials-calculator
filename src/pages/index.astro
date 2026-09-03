@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { grouped, calculators, SITE } from '../lib/registry.js';
+import { ICONS } from '../lib/icons.js';
 
 const groups = grouped();
 ---
@@ -48,7 +49,18 @@ const groups = grouped();
               data-name={`${c.h1} ${c.keyword}`.toLowerCase()}
               class="group border border-rule bg-white p-4 no-underline transition-colors hover:border-ink"
             >
-              <span class="block font-medium text-ink group-hover:text-blueprint">{c.h1}</span>
+              <svg
+                viewBox="0 0 24 24"
+                class="h-7 w-7 stroke-blueprint"
+                fill="none"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d={ICONS[c.slug]} />
+              </svg>
+              <span class="mt-2 block font-medium text-ink group-hover:text-blueprint">{c.h1}</span>
               <span class="mt-1 block text-sm text-mute">{c.tagline}</span>
             </a>
           ))}
