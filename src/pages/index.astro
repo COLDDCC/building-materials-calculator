@@ -89,24 +89,24 @@ const SECTION = 'mx-auto max-w-6xl px-5 pt-16';
   breadcrumbs={[{ name: 'Calculators', path: '/' }]}
 >
   <!-- 首屏：一行标题 + 材料切换条，紧接着就是可用的计算器 -->
-  <section class="mx-auto max-w-6xl px-5 pt-6">
+  <section class="mx-auto max-w-6xl px-5 pt-5">
     <div class="flex items-center justify-between gap-6">
-      <div class="min-w-0">
-        <h1 class="text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl">
+      <div class="flex min-w-0 flex-wrap items-baseline gap-x-5 gap-y-1 lg:flex-nowrap">
+        <h1 class="text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl lg:shrink-0">
           Know exactly how much to order.
         </h1>
-        <p class="mt-1.5 text-slate">Free material calculators, formula shown. Try one right here.</p>
+        <p class="min-w-0 leading-snug text-slate">Free material calculators, formula shown. Try one right here.</p>
       </div>
       <img
         src="/hero-doodle.svg"
         alt=""
-        width="230"
-        height="95"
-        class="hidden shrink-0 md:block"
+        width="140"
+        height="58"
+        class="hidden shrink-0 lg:block"
       />
     </div>
 
-    <nav class="no-print mt-4 -mx-5 overflow-x-auto px-5" aria-label="Pick a material">
+    <nav class="no-print mt-3 -mx-5 overflow-x-auto px-5" aria-label="Pick a material">
       <ul class="flex w-max gap-1.5 pb-1 md:w-auto md:flex-wrap">
         {
           chips.map((c) => (
@@ -137,7 +137,7 @@ const SECTION = 'mx-auto max-w-6xl px-5 pt-16';
     </nav>
   </section>
 
-  <Calculator config={featured} headingTag="h2" eyebrow="Try it now" />
+  <Calculator config={featured} headingTag="h2" eyebrow="Try it now" compact />
 
   <p class="no-print mx-auto max-w-6xl px-5 pt-4 text-sm">
     <a href={`/${featured.slug}/`}>Full drywall calculator with the formula and a worked example →</a>

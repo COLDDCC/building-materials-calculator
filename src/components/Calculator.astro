@@ -3,7 +3,8 @@ import { unitLabel } from '../lib/units.js';
 import { ICONS } from '../lib/icons.js';
 
 // headingTag：首页嵌入时用 h2，避免与首页 h1 重复；eyebrow 可覆盖默认关键词标签
-const { config, headingTag = 'h1', eyebrow } = Astro.props;
+// compact：首页嵌入用，头部压成一行、输入区大屏三列，保证整个计算器落在首屏内
+const { config, headingTag = 'h1', eyebrow, compact = false } = Astro.props;
 const Heading = headingTag;
 
 // 构建期先算一遍默认值，SSR 出真实数字：无 JS 也可读，且不产生 CLS
@@ -22,16 +23,35 @@ const primary = config.outputs.find((o) => o.primary);
 const secondary = config.outputs.filter((o) => !o.primary);
 
 const span = (t) => (t === 'slider' || t === 'preset' ? 'sm:col-span-2' : 'sm:col-span-1');
+const c = (normal, tight) => (compact ? tight : normal);
 const fieldBase =
   'w-full rounded-none border border-rule bg-white px-3 py-2.5 text-base text-ink shadow-none transition-colors hover:border-mute focus:border-blueprint';
 ---
 
 <section
   data-calc={config.slug}
-  class="mx-auto grid max-w-6xl gap-8 px-5 pt-6 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-10"
+  class={`mx-auto grid max-w-6xl gap-8 px-5 ${c('pt-6', 'pt-4')} lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-10`}
 >
   {/* ── 输入区 ───────────────────────────────── */}
   <div>
+    {compact ? (
+      <div class="flex items-center gap-2.5">
+        <svg
+          viewBox="0 0 24 24"
+          class="h-6 w-6 shrink-0 stroke-blueprint"
+          fill="none"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d={ICONS[config.slug]} />
+        </svg>
+        <Heading class="text-xl font-bold tracking-tight text-ink sm:text-2xl">{config.h1}</Heading>
+        {eyebrow && <span class="eyebrow ml-1 hidden sm:inline">{eyebrow}</span>}
+      </div>
+    ) : (
+    <>
     <div class="flex items-center gap-3">
       <svg
         viewBox="0 0 24 24"
@@ -50,9 +70,11 @@ const fieldBase =
       </div>
     </div>
     <p class="mt-2 max-w-xl text-slate">{config.tagline}</p>
+    </>
+    )}
 
-    <div class="mt-6 border border-rule bg-white">
-      <div class="flex items-center justify-between border-b border-rulesoft px-4 py-3">
+    <div class={`${c('mt-6', 'mt-3')} border border-rule bg-white`}>
+      <div class={`flex items-center justify-between border-b border-rulesoft px-4 ${c('py-3', 'py-2')}`}>
         <span class="eyebrow">Measurements</span>
         <div class="no-print flex" role="group" aria-label="Unit system">
           {
@@ -73,7 +95,7 @@ const fieldBase =
         </div>
       </div>
 
-      <div class="grid gap-x-5 gap-y-4 p-4 sm:grid-cols-2">
+      <div class={`grid gap-x-5 p-4 sm:grid-cols-2 ${c('gap-y-4', 'gap-y-3 lg:grid-cols-3')}`}>
         {
           config.inputs.map((input) => (
             <div class={span(input.type)}>
@@ -189,9 +211,9 @@ const fieldBase =
         <span class="h-[3px] w-6 bg-tape" aria-hidden="true"></span>
       </div>
 
-      <div class="border-l-4 border-tape px-4 py-5">
+      <div class={`border-l-4 border-tape px-4 ${c('py-5', 'py-3')}`}>
         <p class="eyebrow" data-result-label>{primary.label}</p>
-        <p class="tabnum mt-1 text-5xl font-bold leading-none tracking-tight">
+        <p class={`tabnum mt-1 ${c('text-5xl', 'text-4xl')} font-bold leading-none tracking-tight`}>
           <span data-output={primary.id} data-kind={primary.unit} data-decimals={primary.decimals}
             >{fmt(initial[primary.id], primary.decimals)}</span
           >
@@ -204,7 +226,7 @@ const fieldBase =
         {
           secondary.map((o) => (
             <div
-              class="flex items-baseline justify-between gap-3 py-2.5 text-sm"
+              class={`flex items-baseline justify-between gap-3 ${c('py-2.5', 'py-2')} text-sm`}
               data-result-row
               data-when={o.when}
               hidden={o.when ? !defaults[o.when] && !initial[o.when] : undefined}
@@ -235,7 +257,7 @@ const fieldBase =
         }
       </dl>
 
-      <div class="no-print flex gap-2 border-t border-rulesoft p-4">
+      <div class={`no-print flex gap-2 border-t border-rulesoft ${c('p-4', 'p-3')}`}>
         <button
           type="button"
           data-action="copy"
