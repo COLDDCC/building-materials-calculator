@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 190" fill="none" role="img" aria-label="Hand-drawn tape measure pulled out beside a stack of blocks">
+  <!-- stacked blocks, slightly wobbly -->
+  <g stroke="#19140f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M40 168 L150 167 L151 128 L41 130 Z"/>
+    <path d="M95 129 L96 167"/>
+    <path d="M62 129 L63 92 L130 90 L131 128"/>
+    <path d="M97 91 q-1 18 0 37"/>
+  </g>
+  <g fill="#f97316" opacity=".22">
+    <path d="M44 164 L92 163 L91 133 L45 134 Z"/>
+    <path d="M100 127 L127 126 L127 94 L100 95 Z"/>
+  </g>
+  <!-- tape measure case -->
+  <g stroke="#19140f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M196 70 C196 44 216 30 242 31 C268 32 284 50 283 76 C282 102 266 116 241 116 C214 116 196 98 196 70 Z"/>
+    <path d="M226 74 a14 14 0 1 0 28 0 a14 14 0 1 0 -28 0"/>
+    <path d="M205 108 q10 12 30 11"/>
+  </g>
+  <circle cx="240" cy="74" r="4" fill="#c2410c"/>
+  <!-- blade pulled out -->
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <path d="M281 96 C320 101 370 104 424 103 L424 118 C370 119 320 116 279 111" stroke="#19140f" stroke-width="3" fill="#ffedd5"/>
+    <path d="M424 101 v20" stroke="#c2410c" stroke-width="4"/>
+  </g>
+  <g stroke="#c2410c" stroke-width="2.2" stroke-linecap="round">
+    <path d="M300 102 v6"/><path d="M315 103 v4"/><path d="M330 104 v6"/><path d="M345 104 v4"/>
+    <path d="M360 104 v6"/><path d="M375 104 v4"/><path d="M390 104 v6"/><path d="M405 104 v4"/>
+  </g>
+  <!-- sparkles -->
+  <g fill="#f97316">
+    <path d="M178 36 q3 10 12 12 q-9 2 -12 12 q-3 -10 -12 -12 q9 -2 12 -12 z"/>
+    <path d="M338 50 q2.5 7 9 9 q-6.5 2 -9 9 q-2.5 -7 -9 -9 q6.5 -2 9 -9 z"/>
+  </g>
+  <circle cx="160" cy="70" r="3" fill="#19140f"/>
+  <circle cx="392" cy="70" r="2.5" fill="#19140f"/>
+</svg>
