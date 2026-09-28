@@ -2,7 +2,9 @@
 import { unitLabel } from '../lib/units.js';
 import { ICONS } from '../lib/icons.js';
 
-const { config } = Astro.props;
+// headingTag：首页嵌入时用 h2，避免与首页 h1 重复；eyebrow 可覆盖默认关键词标签
+const { config, headingTag = 'h1', eyebrow } = Astro.props;
+const Heading = headingTag;
 
 // 构建期先算一遍默认值，SSR 出真实数字：无 JS 也可读，且不产生 CLS
 const defaults = {};
@@ -43,8 +45,8 @@ const fieldBase =
         <path d={ICONS[config.slug]} />
       </svg>
       <div>
-        <p class="eyebrow">{config.keyword}</p>
-        <h1 class="mt-1 text-3xl font-bold tracking-tight text-ink sm:text-4xl">{config.h1}</h1>
+        <p class="eyebrow">{eyebrow ?? config.keyword}</p>
+        <Heading class="mt-1 text-3xl font-bold tracking-tight text-ink sm:text-4xl">{config.h1}</Heading>
       </div>
     </div>
     <p class="mt-2 max-w-xl text-slate">{config.tagline}</p>

@@ -1,77 +1,332 @@
 ---
 import Base from '../layouts/Base.astro';
-import { grouped, calculators, SITE } from '../lib/registry.js';
+import Calculator from '../components/Calculator.astro';
+import { grouped, calculators, bySlug, SITE } from '../lib/registry.js';
 import { ICONS } from '../lib/icons.js';
 
 const groups = grouped();
+
+// 首屏直接嵌一个能用的计算器：客户不用滚动、不用点击就能体验核心功能
+const featured = bySlug['drywall-calculator'];
+// 切换条里把首屏这个计算器排第一
+const chips = [featured, ...calculators.filter((c) => c.slug !== featured.slug)];
+const short = (c) => c.h1.replace(/ Calculator$/, '');
+
+const home = SITE.domain.replace(/\/$/, '') + '/';
+
+const faq = [
+  {
+    q: 'Why is the result higher than my square footage divided by coverage?',
+    a: 'Because you cannot buy part of a sheet, roll or bag. Each calculator adds a waste allowance for cuts and breakage, then rounds up to whole units the way a supplier sells them. Wallpaper goes further and counts strip by strip against the pattern repeat, which is why it can come out a full roll higher than the area method.',
+  },
+  {
+    q: 'What waste factor should I use?',
+    a: 'Each calculator starts with the allowance typical for that material: 10% for drywall and tile, 5% for concrete block, 15% for lumber. Go higher for diagonal tile layouts, rooms with many corners or your first project. The waste factor guide explains when to change it.',
+  },
+  {
+    q: 'Can I use metric measurements?',
+    a: 'Yes. Switch between ft / in and m / cm at the top of any calculator. The results convert with it, and your choice is remembered on this device for the other calculators.',
+  },
+  {
+    q: 'How accurate are the results?',
+    a: 'They are planning estimates built on published manufacturer figures and standard trade practice, and every calculator is checked against its own worked example. Real jobs vary with layout and installation method, so confirm large orders with your supplier or contractor.',
+  },
+  {
+    q: 'Is anything I type saved or sent anywhere?',
+    a: 'No. The calculators run entirely in your browser. Nothing you enter is sent to a server or stored, apart from your ft / m preference, which stays on your device.',
+  },
+  {
+    q: 'The calculator I need is not here. Will you add it?',
+    a: 'Probably — decks, fences and siding are next. Email the material and what you are trying to work out, and it goes on the list.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE.name,
+    url: home,
+    publisher: { '@type': 'Organization', name: SITE.name },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: SITE.name,
+    url: home,
+    logo: new URL('/favicon.svg', SITE.domain).href,
+    email: SITE.email,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: `${SITE.name} Building Material Calculators`,
+    url: home,
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+
+const H2 = 'mt-1 text-2xl font-bold tracking-tight text-ink sm:text-3xl';
+const SECTION = 'mx-auto max-w-6xl px-5 pt-16';
 ---
 
 <Base
   title={`${SITE.name} – Building Material Calculators`}
   description="Free calculators for drywall, tile, wallpaper, concrete block, mulch and more. Enter your room or project size and get the quantity to order, with the formula shown."
   path="/"
+  schema={schema}
   breadcrumbs={[{ name: 'Calculators', path: '/' }]}
 >
-  <section class="mx-auto max-w-6xl px-5 pt-10 pb-2">
-    <p class="eyebrow">{calculators.length} calculators</p>
-    <h1 class="mt-2 max-w-2xl text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl">
-      The number you <span class="text-blueprint">actually order</span>.
-    </h1>
-    <p class="mt-4 max-w-xl text-lg text-slate">
-      Enter the size of the room, wall or bed. Get quantities, not square footage — with the formula
-      written out so you can check it.
-    </p>
-
-    <div class="no-print mt-6 max-w-md">
-      <label for="site-search" class="sr-only">Search calculators</label>
-      <input
-        type="search"
-        id="site-search"
-        placeholder="Search — drywall, mulch, tile…"
-        autocomplete="off"
-        class="w-full border border-rule bg-white px-3 py-2.5 text-base focus:border-blueprint"
+  <!-- 首屏：一行标题 + 材料切换条，紧接着就是可用的计算器 -->
+  <section class="mx-auto max-w-6xl px-5 pt-6">
+    <div class="flex items-center justify-between gap-6">
+      <div class="min-w-0">
+        <h1 class="text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl">
+          Know exactly how much to order.
+        </h1>
+        <p class="mt-1.5 text-slate">Free material calculators, formula shown. Try one right here.</p>
+      </div>
+      <img
+        src="/hero-doodle.svg"
+        alt=""
+        width="230"
+        height="95"
+        class="hidden shrink-0 md:block"
       />
+    </div>
+
+    <nav class="no-print mt-4 -mx-5 overflow-x-auto px-5" aria-label="Pick a material">
+      <ul class="flex w-max gap-1.5 pb-1 md:w-auto md:flex-wrap">
+        {
+          chips.map((c) => (
+            <li>
+              <a
+                href={`/${c.slug}/`}
+                aria-current={c.slug === featured.slug ? 'page' : undefined}
+                class="flex items-center gap-1.5 border border-rule bg-white px-2.5 py-1.5 text-[0.8125rem] !text-slate no-underline transition-colors hover:border-ink hover:!text-ink aria-[current=page]:border-blueprint aria-[current=page]:bg-blueprint aria-[current=page]:!text-white"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  class="h-4 w-4 shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d={ICONS[c.slug]} />
+                </svg>
+                {short(c)}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </section>
+
+  <Calculator config={featured} headingTag="h2" eyebrow="Try it now" />
+
+  <p class="no-print mx-auto max-w-6xl px-5 pt-4 text-sm">
+    <a href={`/${featured.slug}/`}>Full drywall calculator with the formula and a worked example →</a>
+  </p>
+
+  <!-- 全部计算器 + 站内搜索 -->
+  <section class={SECTION} id="calculators">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <p class="eyebrow">All {calculators.length} calculators</p>
+        <h2 class={H2}>Pick your material</h2>
+      </div>
+      <div class="no-print w-full max-w-xs">
+        <label for="site-search" class="sr-only">Search calculators</label>
+        <input
+          type="search"
+          id="site-search"
+          placeholder="Search — drywall, mulch, tile…"
+          autocomplete="off"
+          class="w-full border border-rule bg-white px-3 py-2 text-base focus:border-blueprint"
+        />
+      </div>
+    </div>
+
+    {
+      groups.map((g) => (
+        <div class="pt-8" data-group>
+          <div class="flex items-baseline gap-3 border-b-2 border-ink pb-2">
+            <h3 class="text-lg font-bold tracking-tight">{g.label}</h3>
+            <p class="text-sm text-mute">{g.blurb}</p>
+          </div>
+          <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {g.items.map((c) => (
+              <a
+                href={`/${c.slug}/`}
+                data-card
+                data-name={`${c.h1} ${c.keyword}`.toLowerCase()}
+                class="group border border-rule bg-white p-4 no-underline transition-colors hover:border-ink"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  class="h-7 w-7 stroke-blueprint"
+                  fill="none"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d={ICONS[c.slug]} />
+                </svg>
+                <span class="mt-2 block font-medium text-ink group-hover:text-blueprint">{c.h1}</span>
+                <span class="mt-1 block text-sm text-mute">{c.tagline}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+
+    <p class="mt-8 text-sm text-mute" data-empty hidden>
+      No calculator matches that yet. More are being added every week.
+    </p>
+  </section>
+
+  <!-- 方法说明：这些数字是怎么来的 -->
+  <section class={SECTION} id="method">
+    <p class="eyebrow">How the numbers are worked out</p>
+    <h2 class={H2}>Quantities you can check, not just trust</h2>
+    <p class="mt-3 flex flex-wrap gap-x-5 gap-y-1 font-mono text-xs tracking-[0.04em] text-mute">
+      <span class="font-medium text-blueprint">By {SITE.name}</span>
+      <span>Formulas published on every calculator page</span>
+    </p>
+    <div class="mt-5 max-w-3xl border-l-4 border-tape bg-tapesoft/60 px-5 py-4 text-[0.9375rem] text-ink">
+      <p>
+        The coverage figures behind each calculator come from published manufacturer specifications
+        and standard trade practice — not from other calculators. Every calculator is checked by hand
+        against its own worked example before it goes live, and the full formula sits on its page so
+        you can follow each step.
+      </p>
+      <p class="mt-3">
+        Where the trade disagrees with itself, the page says so instead of picking a side silently. If
+        a number looks wrong, <a href="#contact">tell us</a> — it gets checked against the source and
+        corrected. More on this on the <a href="/about/">about page</a>.
+      </p>
     </div>
   </section>
 
-  {
-    groups.map((g) => (
-      <section class="mx-auto max-w-6xl px-5 pt-12" data-group>
-        <div class="flex items-baseline gap-3 border-b-2 border-ink pb-2">
-          <h2 class="text-lg font-bold tracking-tight">{g.label}</h2>
-          <p class="text-sm text-mute">{g.blurb}</p>
-        </div>
-        <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {g.items.map((c) => (
-            <a
-              href={`/${c.slug}/`}
-              data-card
-              data-name={`${c.h1} ${c.keyword}`.toLowerCase()}
-              class="group border border-rule bg-white p-4 no-underline transition-colors hover:border-ink"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                class="h-7 w-7 stroke-blueprint"
-                fill="none"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <path d={ICONS[c.slug]} />
-              </svg>
-              <span class="mt-2 block font-medium text-ink group-hover:text-blueprint">{c.h1}</span>
-              <span class="mt-1 block text-sm text-mute">{c.tagline}</span>
-            </a>
-          ))}
-        </div>
-      </section>
-    ))
-  }
+  <!-- 读懂结果：面积 ≠ 订货量 -->
+  <section class={SECTION} id="read">
+    <p class="eyebrow">Reading the result</p>
+    <h2 class={H2}>Square footage is not an order</h2>
+    <div class="mt-5 grid gap-8 text-slate md:grid-cols-2">
+      <div class="space-y-4">
+        <p>
+          Area tells you how much surface there is. A supplier sells sheets, rolls, bags and cubic
+          yards. Getting from one to the other takes three steps, and every calculator here does all
+          three:
+        </p>
+        <ol class="list-decimal space-y-2 pl-5">
+          <li><strong class="text-ink">Measure the net area</strong> — walls, floor or bed, minus doors and windows.</li>
+          <li><strong class="text-ink">Add a waste allowance</strong> for cuts, breakage and offcuts you cannot reuse.</li>
+          <li><strong class="text-ink">Round up to whole units</strong> — the sheet, roll or bag you actually carry out of the store.</li>
+        </ol>
+      </div>
+      <div class="space-y-4">
+        <p>
+          Some materials need more than that. Concrete block is counted on its nominal size, which
+          includes the mortar joint. Wallpaper is counted strip by strip, because a pattern repeat
+          wastes paper at the top of every drop.
+        </p>
+        <p>
+          Not sure how much extra to allow? The <a href="/guides/what-is-a-waste-factor/">waste
+          factor guide</a> covers typical allowances material by material.
+        </p>
+      </div>
+    </div>
 
-  <p class="mx-auto mt-14 max-w-6xl px-5 text-sm text-mute" data-empty hidden>
-    No calculator matches that yet. More are being added every week.
-  </p>
+    <div class="mt-8 overflow-x-auto">
+      <table class="w-full min-w-[34rem] border-collapse text-sm">
+        <thead>
+          <tr class="border-b-2 border-ink text-left">
+            <th class="py-2 pr-4 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-mute">Material</th>
+            <th class="py-2 pr-4 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-mute">Area ÷ coverage</th>
+            <th class="py-2 pr-4 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-mute">{SITE.name}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-rulesoft align-top">
+            <td class="py-2.5 pr-4 font-medium">
+              <a href="/wallpaper-calculator/">Wallpaper</a>
+            </td>
+            <td class="py-2.5 pr-4 text-slate">Wall area ÷ roll area. Ignores the pattern repeat — can leave you a roll short.</td>
+            <td class="py-2.5 pr-4 text-slate">Strips per roll after the repeat, then rolls. Same room: 8 rolls instead of 7.</td>
+          </tr>
+          <tr class="border-b border-rulesoft align-top">
+            <td class="py-2.5 pr-4 font-medium">
+              <a href="/concrete-block-calculator/">Concrete block</a>
+            </td>
+            <td class="py-2.5 pr-4 text-slate">Measured block size — about 7.5% more blocks than the wall takes.</td>
+            <td class="py-2.5 pr-4 text-slate">Nominal size with the mortar joint: 1.125 blocks per sq ft of face.</td>
+          </tr>
+          <tr class="border-b border-rulesoft align-top">
+            <td class="py-2.5 pr-4 font-medium">
+              <a href="/drywall-calculator/">Drywall</a>
+            </td>
+            <td class="py-2.5 pr-4 text-slate">Sheets only.</td>
+            <td class="py-2.5 pr-4 text-slate">Sheets after door and window deductions, plus compound, tape and screws.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class={SECTION} id="faq">
+    <p class="eyebrow">Questions</p>
+    <h2 class={H2}>Frequently asked</h2>
+    <div class="mt-4 max-w-3xl divide-y divide-rulesoft border-t border-rule">
+      {
+        faq.map((f, i) => (
+          <details class="group py-3" open={i === 0}>
+            <summary class="flex cursor-pointer list-none items-baseline justify-between gap-4 font-medium">
+              <span>{f.q}</span>
+              <span class="shrink-0 font-mono text-lg leading-none text-mute group-open:hidden" aria-hidden="true">
+                +
+              </span>
+              <span class="hidden shrink-0 font-mono text-lg leading-none text-mute group-open:block" aria-hidden="true">
+                −
+              </span>
+            </summary>
+            <p class="mt-2 pr-8 text-slate">{f.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- 纠错 / 联系 -->
+  <section class={SECTION} id="contact">
+    <p class="eyebrow">Corrections</p>
+    <h2 class={H2}>Found a number that looks wrong?</h2>
+    <p class="mt-3 max-w-2xl text-slate">
+      Send the calculator, the inputs you used and what you expected. It gets checked against the
+      source figures, and the page is corrected if it turns out to be wrong.
+    </p>
+    <p class="mt-3 font-medium">
+      Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+    </p>
+  </section>
 </Base>
 
 <script>
