@@ -24,8 +24,10 @@ const secondary = config.outputs.filter((o) => !o.primary);
 
 const span = (t) => (t === 'slider' || t === 'preset' ? 'sm:col-span-2' : 'sm:col-span-1');
 const c = (normal, tight) => (compact ? tight : normal);
+// compact 模式下输入说明在大屏隐藏（独立计算器页照常显示），为首屏腾高度
+const helpCls = c('', 'lg:hidden');
 const fieldBase =
-  'w-full rounded-none border border-rule bg-white px-3 py-2.5 text-base text-ink shadow-none transition-colors hover:border-mute focus:border-blueprint';
+  `w-full rounded-none border border-rule bg-white px-3 ${c('py-2.5', 'py-2')} text-base text-ink shadow-none transition-colors hover:border-mute focus:border-blueprint`;
 ---
 
 <section
@@ -95,7 +97,7 @@ const fieldBase =
         </div>
       </div>
 
-      <div class={`grid gap-x-5 p-4 sm:grid-cols-2 ${c('gap-y-4', 'gap-y-3 lg:grid-cols-3')}`}>
+      <div class={`grid gap-x-5 p-4 sm:grid-cols-2 ${c('gap-y-4', config.inputs.length > 9 ? 'gap-y-3 lg:grid-cols-4' : 'gap-y-3 lg:grid-cols-3')}`}>
         {
           config.inputs.map((input) => (
             <div class={span(input.type)}>
@@ -103,7 +105,7 @@ const fieldBase =
                 <label class="flex cursor-pointer items-start gap-3 py-1.5">
                   <input
                     type="checkbox"
-                    id={`f-${input.id}`}
+                    id={`f-${config.slug}-${input.id}`}
                     data-input={input.id}
                     data-type="toggle"
                     checked={input.default}
@@ -111,13 +113,13 @@ const fieldBase =
                   />
                   <span>
                     <span class="text-sm font-medium">{input.label}</span>
-                    {input.help && <span class="mt-0.5 block text-xs text-mute">{input.help}</span>}
+                    {input.help && <span class={`mt-0.5 block text-xs text-mute ${helpCls}`}>{input.help}</span>}
                   </span>
                 </label>
               ) : (
                 <>
                   <label
-                    for={`f-${input.id}`}
+                    for={`f-${config.slug}-${input.id}`}
                     class="flex items-baseline justify-between gap-2 text-sm font-medium"
                   >
                     <span>{input.label}</span>
@@ -129,13 +131,13 @@ const fieldBase =
                     )}
                   </label>
 
-                  <div class="mt-1.5 flex items-stretch">
+                  <div class={`${c('mt-1.5', 'mt-1')} flex items-stretch`}>
                     {input.type === 'number' && (
                       <>
                         <input
                           type="number"
                           inputmode="decimal"
-                          id={`f-${input.id}`}
+                          id={`f-${config.slug}-${input.id}`}
                           data-input={input.id}
                           data-type="number"
                           data-kind={input.unit}
@@ -157,7 +159,7 @@ const fieldBase =
 
                     {(input.type === 'select' || input.type === 'preset') && (
                       <select
-                        id={`f-${input.id}`}
+                        id={`f-${config.slug}-${input.id}`}
                         data-input={input.id}
                         data-type={input.type}
                         data-numeric={String(!!isNumericOptions(input))}
@@ -178,7 +180,7 @@ const fieldBase =
                     {input.type === 'slider' && (
                       <input
                         type="range"
-                        id={`f-${input.id}`}
+                        id={`f-${config.slug}-${input.id}`}
                         data-input={input.id}
                         data-type="slider"
                         data-kind={input.unit}
@@ -192,7 +194,7 @@ const fieldBase =
                   </div>
 
                   {input.help && input.type !== 'toggle' && (
-                    <p class="mt-1 text-xs text-mute">{input.help}</p>
+                    <p class={`mt-1 text-xs text-mute ${helpCls}`}>{input.help}</p>
                   )}
                 </>
               )}
@@ -226,7 +228,7 @@ const fieldBase =
         {
           secondary.map((o) => (
             <div
-              class={`flex items-baseline justify-between gap-3 ${c('py-2.5', 'py-2')} text-sm`}
+              class={`flex items-baseline justify-between gap-3 ${c('py-2.5', 'py-1.5')} text-sm`}
               data-result-row
               data-when={o.when}
               hidden={o.when ? !defaults[o.when] && !initial[o.when] : undefined}
@@ -275,7 +277,7 @@ const fieldBase =
 
     {
       config.outputs.some((o) => o.help) && (
-        <ul class="mt-3 space-y-1.5 text-xs text-mute">
+        <ul class={`mt-3 space-y-1.5 text-xs text-mute ${helpCls}`}>
           {config.outputs
             .filter((o) => o.help)
             .map((o) => (

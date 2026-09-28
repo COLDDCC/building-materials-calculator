@@ -149,14 +149,20 @@ async function boot(root) {
 
   root.querySelectorAll('[data-units]').forEach((btn) => {
     btn.addEventListener('click', () => {
-      system = btn.dataset.units;
-      setSystem(system);
+      setSystem(btn.dataset.units);
       document.querySelectorAll('[data-units]').forEach((b) => {
-        b.setAttribute('aria-pressed', String(b.dataset.units === system));
+        b.setAttribute('aria-pressed', String(b.dataset.units === btn.dataset.units));
       });
-      paintFieldValues();
-      render();
+      // 同页可能有多个计算器（首页），通知每一个都换算
+      document.dispatchEvent(new CustomEvent('buildtally:units', { detail: btn.dataset.units }));
     });
+  });
+
+  document.addEventListener('buildtally:units', (e) => {
+    if (e.detail === system) return;
+    system = e.detail;
+    paintFieldValues();
+    render();
   });
 
   const copyBtn = root.querySelector('[data-action="copy"]');

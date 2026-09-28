@@ -6,8 +6,10 @@ import { ICONS } from '../lib/icons.js';
 
 const groups = grouped();
 
-// 首屏直接嵌一个能用的计算器：客户不用滚动、不用点击就能体验核心功能
+// 首屏直接嵌一个能用的计算器：客户不用滚动、不用点击就能体验核心功能。
+// 10 个计算器全部预渲染在首页，切换条原地切换显示哪一个；独立计算器页保留给搜索引擎。
 const featured = bySlug['drywall-calculator'];
+const key = (c) => c.slug.replace(/-calculator$/, '');
 // 切换条里把首屏这个计算器排第一
 const chips = [featured, ...calculators.filter((c) => c.slug !== featured.slug)];
 const short = (c) => c.h1.replace(/ Calculator$/, '');
@@ -89,7 +91,7 @@ const SECTION = 'mx-auto max-w-6xl px-5 pt-16';
   breadcrumbs={[{ name: 'Calculators', path: '/' }]}
 >
   <!-- 首屏：一行标题 + 材料切换条，紧接着就是可用的计算器 -->
-  <section class="mx-auto max-w-6xl px-5 pt-5">
+  <section class="mx-auto max-w-6xl px-5 pt-4">
     <div class="flex items-center justify-between gap-6">
       <div class="flex min-w-0 flex-wrap items-baseline gap-x-5 gap-y-1 lg:flex-nowrap">
         <h1 class="text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl lg:shrink-0">
@@ -106,15 +108,16 @@ const SECTION = 'mx-auto max-w-6xl px-5 pt-16';
       />
     </div>
 
-    <nav class="no-print mt-3 -mx-5 overflow-x-auto px-5" aria-label="Pick a material">
+    <nav class="no-print mt-2.5 -mx-5 overflow-x-auto px-5" aria-label="Pick a material">
       <ul class="flex w-max gap-1.5 pb-1 md:w-auto md:flex-wrap">
         {
           chips.map((c) => (
             <li>
               <a
                 href={`/${c.slug}/`}
-                aria-current={c.slug === featured.slug ? 'page' : undefined}
-                class="flex items-center gap-1.5 border border-rule bg-white px-2.5 py-1.5 text-[0.8125rem] !text-slate no-underline transition-colors hover:border-ink hover:!text-ink aria-[current=page]:border-blueprint aria-[current=page]:bg-blueprint aria-[current=page]:!text-white"
+                data-pick={key(c)}
+                aria-current={c.slug === featured.slug ? 'true' : undefined}
+                class="flex items-center gap-1.5 border border-rule bg-white px-2.5 py-1.5 text-[0.8125rem] !text-slate no-underline transition-colors hover:border-ink hover:!text-ink aria-[current=true]:border-blueprint aria-[current=true]:bg-blueprint aria-[current=true]:!text-white"
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -137,11 +140,33 @@ const SECTION = 'mx-auto max-w-6xl px-5 pt-16';
     </nav>
   </section>
 
-  <Calculator config={featured} headingTag="h2" eyebrow="Try it now" compact />
+  {
+    chips.map((c) => (
+      <div data-panel={key(c)} hidden={c.slug !== featured.slug}>
+        <Calculator config={c} headingTag="h2" eyebrow="Try it now" compact />
+        <p class="no-print mx-auto max-w-6xl px-5 pt-4 text-sm">
+          <a href={`/${c.slug}/`}>
+            Full {short(c).toLowerCase()} calculator with the formula and a worked example →
+          </a>
+        </p>
+      </div>
+    ))
+  }
 
-  <p class="no-print mx-auto max-w-6xl px-5 pt-4 text-sm">
-    <a href={`/${featured.slug}/`}>Full drywall calculator with the formula and a worked example →</a>
-  </p>
+  <script is:inline>
+    // 在首帧绘制前按 ?calc= 切到对应计算器，避免先闪一下默认的石膏板
+    (function () {
+      var k = new URLSearchParams(location.search).get('calc');
+      if (!k || !document.querySelector('[data-panel="' + k + '"]')) return;
+      document.querySelectorAll('[data-panel]').forEach(function (p) {
+        p.hidden = p.dataset.panel !== k;
+      });
+      document.querySelectorAll('[data-pick]').forEach(function (a) {
+        if (a.dataset.pick === k) a.setAttribute('aria-current', 'true');
+        else a.removeAttribute('aria-current');
+      });
+    })();
+  </script>
 
   <!-- 全部计算器 + 站内搜索 -->
   <section class={SECTION} id="calculators">
@@ -330,6 +355,27 @@ const SECTION = 'mx-auto max-w-6xl px-5 pt-16';
 </Base>
 
 <script>
+  // 切换条：原地换计算器，地址栏同步 ?calc=，刷新和分享都能回到同一个计算器
+  const defaultKey = document.querySelector('[data-panel]')?.dataset.panel;
+  function show(k) {
+    document.querySelectorAll('[data-panel]').forEach((p) => {
+      p.hidden = p.dataset.panel !== k;
+    });
+    document.querySelectorAll('[data-pick]').forEach((a) => {
+      if (a.dataset.pick === k) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
+  }
+  document.querySelectorAll('[data-pick]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+      e.preventDefault();
+      const k = a.dataset.pick;
+      show(k);
+      history.replaceState(null, '', k === defaultKey ? location.pathname : `?calc=${k}`);
+    });
+  });
+
   const search = document.getElementById('site-search');
   const cards = Array.from(document.querySelectorAll('[data-card]'));
   const groups = Array.from(document.querySelectorAll('[data-group]'));
