@@ -7,7 +7,7 @@ const { PUBLIC_SITE_URL } = loadEnv(process.env.NODE_ENV || 'production', proces
 
 export default defineConfig({
   // 与 src/lib/registry.js 的 SITE.domain 读同一个环境变量，改一处即可
-  site: PUBLIC_SITE_URL || 'https://example.com',
+  site: PUBLIC_SITE_URL || 'https://getbuildtally.com',
   trailingSlash: 'always',
   build: { format: 'directory', inlineStylesheets: 'auto' },
   // 静态构建下 Astro 生成 meta-refresh 兜底；真 301 由 public/_redirects 交给 Cloudflare Pages
